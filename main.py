@@ -5,22 +5,24 @@ from telegram_bot import send_signal
 
 async def main():
 
-    signal = get_signal()
+    while True:
 
-    if signal == "BUY":
-        await send_signal(
-            "🟢 BUY SIGNAL\nPair: EURUSD\nEntry: Next Candle\nExpiry: 2 Minute"
-        )
+        signal = get_signal()
 
-    elif signal == "SELL":
-        await send_signal(
-            "🔴 SELL SIGNAL\nPair: EURUSD\nEntry: Next Candle\nExpiry: 2 Minute"
-        )
+        if signal == "BUY":
+            await send_signal(
+                "🟢 BUY SIGNAL\nPair: EURUSD\nEntry: Next Candle\nExpiry: 2 Minute"
+            )
 
-    else:
-        await send_signal(
-            "⚪ WAIT - No Valid Setup"
-        )
+        elif signal == "SELL":
+            await send_signal(
+                "🔴 SELL SIGNAL\nPair: EURUSD\nEntry: Next Candle\nExpiry: 2 Minute"
+            )
+
+        else:
+            print("WAIT")
+
+        await asyncio.sleep(300)  # 5 minute
 
 
 asyncio.run(main())

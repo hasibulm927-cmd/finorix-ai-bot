@@ -54,4 +54,4 @@ def get_signal():
 
     except Exception as e:
         print("ERROR:", e)
-        return "WAIT"
+        return None
