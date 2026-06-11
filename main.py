@@ -1,4 +1,3 @@
-
 import asyncio
 from strategy import get_signal
 from telegram_bot import send_signal
