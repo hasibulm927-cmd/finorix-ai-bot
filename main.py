@@ -1,7 +1,19 @@
-from telegram_bot import send_signal
+
 import asyncio
+from strategy import get_signal
+from telegram_bot import send_signal
 
 async def main():
-    await send_signal("BOT IS RUNNING")
+
+    signal = get_signal()
+
+    if signal == "BUY":
+        await send_signal("🟢 BUY SIGNAL\nPair: EURUSD\nExpiry: 2 Minute")
+
+    elif signal == "SELL":
+        await send_signal("🔴 SELL SIGNAL\nPair: EURUSD\nExpiry: 2 Minute")
+
+    else:
+        await send_signal("⚪ WAIT - No Valid Setup")
 
 asyncio.run(main())
