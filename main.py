@@ -7,12 +7,19 @@ async def main():
     signal = get_signal()
 
     if signal == "BUY":
-        await send_signal("🟢 BUY SIGNAL\nPair: EURUSD\nExpiry: 2 Minute")
+        await send_signal(
+            "🟢 BUY SIGNAL\n"
+            "Pair: EURUSD\n"
+            "Entry: Next Candle\n"
+            "Expiry: 2 Minute"
+        )
 
     elif signal == "SELL":
-        await send_signal("🔴 SELL SIGNAL\nPair: EURUSD\nExpiry: 2 Minute")
-
-    else:
-        await send_signal("⚪ WAIT - No Valid Setup")
+        await send_signal(
+            "🔴 SELL SIGNAL\n"
+            "Pair: EURUSD\n"
+            "Entry: Next Candle\n"
+            "Expiry: 2 Minute"
+        )
 
 asyncio.run(main())
