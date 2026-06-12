@@ -57,7 +57,7 @@ def check_pair(symbol):
         return None
 
 
-def get_signal():
+def get_signals():
 
     pairs = [
         "EURUSD=X",
@@ -79,7 +79,4 @@ def get_signal():
         if result is not None:
             signals.append(result)
 
-    if len(signals) > 0:
-        return signals[0]
-
-    return None
+    return signals
