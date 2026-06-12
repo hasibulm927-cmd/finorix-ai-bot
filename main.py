@@ -2,24 +2,35 @@ import asyncio
 from strategy import get_signal
 from telegram_bot import send_signal
 
+
 async def main():
 
-    signal = get_signal()
+    result = get_signal()
+
+    if result is None:
+        return
+
+    signal, pair = result
+
+    pair_name = pair.replace("=X", "")
 
     if signal == "BUY":
+
         await send_signal(
-            "🟢 BUY SIGNAL\n"
-            "Pair: EURUSD\n"
-            "Entry: Next Candle\n"
-            "Expiry: 2 Minute"
+            f"🟢 BUY SIGNAL\n"
+            f"Pair: {pair_name}\n"
+            f"Entry: Next Candle\n"
+            f"Expiry: 2 Minute"
         )
 
     elif signal == "SELL":
+
         await send_signal(
-            "🔴 SELL SIGNAL\n"
-            "Pair: EURUSD\n"
-            "Entry: Next Candle\n"
-            "Expiry: 2 Minute"
+            f"🔴 SELL SIGNAL\n"
+            f"Pair: {pair_name}\n"
+            f"Entry: Next Candle\n"
+            f"Expiry: 2 Minute"
         )
+
 
 asyncio.run(main())
