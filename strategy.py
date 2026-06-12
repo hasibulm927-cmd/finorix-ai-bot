@@ -36,7 +36,7 @@ def check_pair(symbol):
     # BUY
     if (
         latest_ema9 > latest_ema21
-        and latest_rsi > 50
+        and latest_rsi > 48
         and latest_macd > latest_signal
     ):
         return ("BUY", symbol)
@@ -44,7 +44,7 @@ def check_pair(symbol):
     # SELL
     elif (
         latest_ema9 < latest_ema21
-        and latest_rsi < 50
+        and latest_rsi < 52
         and latest_macd < latest_signal
     ):
         return ("SELL", symbol)
@@ -58,7 +58,9 @@ def get_signal():
 
         pairs = [
             "EURUSD=X",
-            "GBPUSD=X"
+            "GBPUSD=X",
+            "AUDUSD=X",
+            "USDJPY=X"
         ]
 
         for pair in pairs:
