@@ -5,56 +5,59 @@ from ta.momentum import RSIIndicator
 
 def check_pair(symbol):
 
-    data = yf.download(
-        symbol,
-        period="5d",
-        interval="5m",
-        progress=False,
-        auto_adjust=True
-    )
+    try:
+        data = yf.download(
+            symbol,
+            period="5d",
+            interval="5m",
+            progress=False,
+            auto_adjust=True
+        )
 
-    if data.empty:
+        if data.empty:
+            return None
+
+        close = data["Close"].squeeze()
+
+        ema9 = EMAIndicator(close=close, window=9).ema_indicator()
+        ema21 = EMAIndicator(close=close, window=21).ema_indicator()
+
+        rsi = RSIIndicator(close=close, window=14).rsi()
+
+        macd = MACD(close=close)
+
+        latest_ema9 = float(ema9.iloc[-1])
+        latest_ema21 = float(ema21.iloc[-1])
+
+        latest_rsi = float(rsi.iloc[-1])
+
+        latest_macd = float(macd.macd().iloc[-1])
+        latest_signal = float(macd.macd_signal().iloc[-1])
+
+        # BUY
+        if (
+            latest_ema9 > latest_ema21
+            and latest_rsi > 50
+            and latest_macd > latest_signal
+        ):
+            return ("BUY", symbol)
+
+        # SELL
+        if (
+            latest_ema9 < latest_ema21
+            and latest_rsi < 50
+            and latest_macd < latest_signal
+        ):
+            return ("SELL", symbol)
+
         return None
 
-    close = data["Close"].squeeze()
-
-    ema9 = EMAIndicator(close=close, window=9).ema_indicator()
-    ema21 = EMAIndicator(close=close, window=21).ema_indicator()
-
-    rsi = RSIIndicator(close=close, window=14).rsi()
-
-    macd = MACD(close=close)
-
-    latest_ema9 = float(ema9.iloc[-1])
-    latest_ema21 = float(ema21.iloc[-1])
-
-    latest_rsi = float(rsi.iloc[-1])
-
-    latest_macd = float(macd.macd().iloc[-1])
-    latest_signal = float(macd.macd_signal().iloc[-1])
-
-    # BUY
-    if (
-        latest_ema9 > latest_ema21
-        and latest_rsi > 48
-        and latest_macd > latest_signal
-    ):
-        return ("BUY", symbol)
-
-    # SELL
-    elif (
-        latest_ema9 < latest_ema21
-        and latest_rsi < 52
-        and latest_macd < latest_signal
-    ):
-        return ("SELL", symbol)
-
-    return None
+    except Exception as e:
+        print(f"{symbol} ERROR: {e}")
+        return None
 
 
-def get_signals():
-
-    signals = []
+def get_signal():
 
     pairs = [
         "EURUSD=X",
@@ -67,6 +70,8 @@ def get_signals():
         "EURJPY=X"
     ]
 
+    signals = []
+
     for pair in pairs:
 
         result = check_pair(pair)
@@ -74,4 +79,7 @@ def get_signals():
         if result is not None:
             signals.append(result)
 
-    return signals
+    if len(signals) > 0:
+        return signals[0]
+
+    return None
