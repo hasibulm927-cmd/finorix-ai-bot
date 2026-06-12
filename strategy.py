@@ -33,18 +33,18 @@ def check_pair(symbol):
     latest_macd = float(macd.macd().iloc[-1])
     latest_signal = float(macd.macd_signal().iloc[-1])
 
-    # BUY SIGNAL
+    # BUY
     if (
         latest_ema9 > latest_ema21
-        and latest_rsi > 50
+        and latest_rsi > 48
         and latest_macd > latest_signal
     ):
         return ("BUY", symbol)
 
-    # SELL SIGNAL
+    # SELL
     elif (
         latest_ema9 < latest_ema21
-        and latest_rsi < 50
+        and latest_rsi < 52
         and latest_macd < latest_signal
     ):
         return ("SELL", symbol)
@@ -52,30 +52,26 @@ def check_pair(symbol):
     return None
 
 
-def get_signal():
+def get_signals():
 
-    try:
+    signals = []
 
-        pairs = [
-            "EURUSD=X",
-            "GBPUSD=X",
-            "AUDUSD=X",
-            "USDJPY=X",
-            "USDCAD=X",
-            "USDCHF=X",
-            "NZDUSD=X",
-            "EURJPY=X"
-        ]
+    pairs = [
+        "EURUSD=X",
+        "GBPUSD=X",
+        "AUDUSD=X",
+        "USDJPY=X",
+        "USDCAD=X",
+        "USDCHF=X",
+        "NZDUSD=X",
+        "EURJPY=X"
+    ]
 
-        for pair in pairs:
+    for pair in pairs:
 
-            result = check_pair(pair)
+        result = check_pair(pair)
 
-            if result is not None:
-                return result
+        if result is not None:
+            signals.append(result)
 
-        return None
-
-    except Exception as e:
-        print("ERROR:", e)
-        return None
+    return signals
