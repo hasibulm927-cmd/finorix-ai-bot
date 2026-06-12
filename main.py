@@ -20,7 +20,7 @@ async def main():
             f"🟢 BUY SIGNAL\n"
             f"Pair: {pair_name}\n"
             f"Entry: Next Candle\n"
-            f"Expiry: 2 Minute"
+            f"Expiry: 5 Minute"
         )
 
     elif signal == "SELL":
@@ -29,7 +29,7 @@ async def main():
             f"🔴 SELL SIGNAL\n"
             f"Pair: {pair_name}\n"
             f"Entry: Next Candle\n"
-            f"Expiry: 2 Minute"
+            f"Expiry: 5 Minute"
         )
 
 
